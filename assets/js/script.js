@@ -1,15 +1,15 @@
-// openroute apikey 5b3ce3597851110001cf6248d0ac1239575843f792ef81d849f69513
+const searchButton = document.querySelector("#submit-form")
 
-let button = document.getElementById("get-location");
-let latText = document.getElementById("latitude");
-let longText = document.getElementById("longitude");
+function formSubmitHandler(event) {
+  event.preventDefault();
+  console.log("Pressing submit.");
+  // var value = nameInputEl.value.trim();
 
-button.addEventListener("click", () => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
-
-    latText.innerText = lat.toFixed(2);
-    longText.innerText = long.toFixed(2);
-  });
-});
+  // if (cityNamePattern.test(value)) {
+  //   var city = value;
+  //   cityLookup(city);
+  // } else {
+  //   alert("Invalid input.");
+  // }
+}
+searchButton.addEventListener("submit", formSubmitHandler);
