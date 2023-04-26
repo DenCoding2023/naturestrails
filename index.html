@@ -1,22 +1,37 @@
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hello Bulma!</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-      </head>
-      <body>
-      <section class="section">
-        <div class="container">
-          <h1 class="title">
-            Hello World
-          </h1>
-          <p class="subtitle">
-            My first website with <strong>Bulma</strong>!
-          </p>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nature Trails</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="app-title">Nature Trails</h1>
+    </header>
+    <main class="flex-row justify-space-between">
+        <div id="sidebar" class="col-12 col-md-3">
+            <div class="card city-search">
+                <h3 class="card-header text-uppercase">Search By City</h3>
+                <form id="submit-form" class="card-body">
+                    <input name="city-name" id="city-name" type="text" autofocus="true" class="form-input"
+                        placeholder="Boston, MA, US or London, GB" />
+                    <button type="submit" class="button">Search</button>
+                    <span>For best results search by city, state and country code, or city and country code.</span>
+                </form>
+            </div>
+            <div class="card city-search">
+                <h3 class="card-header text-uppercase">Search History</h3>
+                <div id="search-history" class="card-body">
+                </div>
+            </div>
         </div>
-      </section>
-      </body>
-    </html>
+
+        <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
