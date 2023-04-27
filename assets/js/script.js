@@ -119,3 +119,55 @@ function displayWeather(lat, lon) {
       alert("Unable to connect to OpenWeatherMap: " + error);
     });
 }
+
+// Section to modify as neede //
+function createWeatherBox(day, minMaxTemp) {
+  const cardDiv = document.createElement("div");
+  const cardDivBody = document.createElement("div");
+  const forecastDate = document.createElement("h3");
+  const weatherIcon = document.createElement("img");
+  const weatherDescription = document.createElement("span");
+  const weatherConditionsTemp = document.createElement("p");
+  const weatherConditionsWind = document.createElement("p");
+  const weatherConditionsHum = document.createElement("p");
+  const weatherConditionsMinMax = document.createElement("p");
+  cardDiv.classList.add("card");
+  cardDivBody.classList = "card-body fc-body";
+  forecastDate.classList = "card-title fc-title";
+  weatherIcon.classList = "card-img-top fc-icon";
+  weatherConditionsTemp.classList = "card-text fc-text";
+  weatherConditionsWind.classList = "card-text fc-text";
+  weatherConditionsHum.classList = "card-text fc-text";
+  weatherConditionsMinMax.classList = "card-text fc-text";
+  let iconCode = day.weather[0].icon;
+  let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+  weatherIcon.setAttribute("src", iconUrl);
+  weatherDescription.textContent = day.weather[0].description;
+  weatherConditionsTemp.textContent = "Temp: " + day.main.temp + "\xB0F";
+  weatherConditionsMinMax.textContent =
+    "Min: " +
+    minMaxTemp.minTemp +
+    "\xB0F, Max: " +
+    minMaxTemp.maxTemp +
+    "\xB0F";
+  weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
+  weatherConditionsHum.textContent = "Humidity: " + day.main.humidity + "%";
+  let dateObj = new Date(day.dt * 1000);
+  let options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  let formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObj);
+  forecastDate.textContent = formattedDate;
+  cardDivBody.appendChild(weatherConditionsTemp);
+  cardDivBody.appendChild(weatherConditionsMinMax);
+  cardDivBody.appendChild(weatherConditionsWind);
+  cardDivBody.appendChild(weatherConditionsHum);
+  cardDiv.appendChild(forecastDate);
+  cardDiv.appendChild(weatherIcon);
+  cardDiv.appendChild(weatherDescription);
+  cardDiv.appendChild(cardDivBody);
+  return cardDiv;
+}
