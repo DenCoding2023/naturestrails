@@ -132,13 +132,15 @@ function createWeatherBox(day, minMaxTemp) {
   const weatherConditionsHum = document.createElement("p");
   const weatherConditionsMinMax = document.createElement("p");
   cardDiv.classList.add("card");
-  cardDivBody.classList = "card-body fc-body";
+  cardDivBody.classList = "card-content";
   forecastDate.classList = "card-title fc-title";
+  // chainging the card list to ?//
   weatherIcon.classList = "card-img-top fc-icon";
   weatherConditionsTemp.classList = "card-text fc-text";
   weatherConditionsWind.classList = "card-text fc-text";
   weatherConditionsHum.classList = "card-text fc-text";
   weatherConditionsMinMax.classList = "card-text fc-text";
+
   let iconCode = day.weather[0].icon;
   let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
   weatherIcon.setAttribute("src", iconUrl);
