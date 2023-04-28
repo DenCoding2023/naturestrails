@@ -17,17 +17,23 @@ function formSubmitHandler(event) {
   }
 }
 
-// Added a event lisitner with the API key to set tem, humidity and citry name//
+// Added a event lisitner with the API key to set tem, humidity and city name//
 searchButton.addEventListener("submit", formSubmitHandler);
 
-function searchWeather(city){
-
-  var searchHistory =[]
+function searchWeather(city) {
+  var searchHistory = []
   searchHistory.push(city);
   console.log(searchHistory)
   localStorage.setItem('search-history', JSON.stringify(searchHistory))
-  
-// This will be added or fix  trying a different fuction//
+
+for (let i = 0; i < searchHistory.length; i++) {
+    var list = document.createElement("li");
+    list.setAttribute("class", "list-group-item");
+    list.setAttribute("id", "city-name");
+    list.textContent = searchHistory[i];
+    cityEl.appendChild(list);
+  }
+
   var apiUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
@@ -36,10 +42,10 @@ function searchWeather(city){
     "&appid=" +
     ApiKey;
 
-//    var city was here I moved it to the top to test///
+  //    var city was here I moved it to the top to test///
   fetch(apiUrl)
-  .then(res=>res.json())
-  .then(data=>{
+    .then(res => res.json())
+    .then(data => {
       console.log(data)
       
 
@@ -59,7 +65,7 @@ function searchWeather(city){
       // document.querySelector(".box-Humidity").innerHTML="Humidity: "+data.main.humidity+"%"
       // document.querySelector(".boxCityName").innerHTML="City name: "+data.name
       // document.querySelector(".icons").innerHTML="Icon: "+data.weather[0].icon
-  })
+    })
 }
 
 function displayWeather(lat, lon) {
