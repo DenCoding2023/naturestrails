@@ -4,7 +4,7 @@ const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 var cityEl = document.querySelector("#city-name");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
-
+var temp = {};
 function formSubmitHandler(event) {
   event.preventDefault();
   console.log("Pressing submit.");
@@ -18,13 +18,22 @@ function formSubmitHandler(event) {
   }
 }
 
+// Added a event lisitner with the API key to set tem, humidity and city name//
 searchButton.addEventListener("submit", formSubmitHandler);
 
 function searchWeather(city) {
-  var searchHistory = [];
+  var searchHistory = []
   searchHistory.push(city);
-  console.log(searchHistory);
-  localStorage.setItem("search-history", JSON.stringify(searchHistory));
+  console.log(searchHistory)
+  localStorage.setItem('search-history', JSON.stringify(searchHistory))
+
+for (let i = 0; i < searchHistory.length; i++) {
+    var list = document.createElement("li");
+    list.setAttribute("class", "list-group-item");
+    list.setAttribute("id", "city-name");
+    list.textContent = searchHistory[i];
+    cityEl.appendChild(list);
+  }
 
   var apiUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -34,17 +43,21 @@ function searchWeather(city) {
     "&appid=" +
     ApiKey;
 
+
+  //    var city was here I moved it to the top to test///
   fetch(apiUrl)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      
+
+      let weatherIcon= document.querySelector("#weather-container");
+      // console.log(data)
 
       var lat = data[0].lat;
       var lon = data[0].lon;
       displayWeather(lat, lon);
-
     });
-}
 
 function displayWeather(lat, lon) {
   // var weatherContainerEl = document.querySelector("#weather-container");
@@ -71,11 +84,52 @@ function displayWeather(lat, lon) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
+          let weatherIcon= document.querySelector(".icons");
           console.log(data);
 
           fiveDayForecast(data);
 
-          return;
+      temp = data;
+          // const minMaxTemps = getMinMaxTemp(data);
+          
+          document.querySelector("#name-city").innerHTML="City Name: "+data.city.name;
+          document.querySelector("#weather-container").innerHTML="Temp: "+data.list[0].main.temp+"℉";
+          document.querySelector("#humid-container").innerHTML="Humidity: "+data.list[0].main.humidity+"%";
+          document.querySelector("#w-speed").innerHTML="Wind: "+data.list[0].wind.speed+" MLP"
+          document.querySelector("#description").innerHTML="Weather Conditions: "+data.list[0].weather[0].description;
+          document.querySelector(".icons").innerHTML="Weather Icon: "+data.list[0].weather[0].icon
+
+          let iconCode = data.list[0].weather[0].icon
+          let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+          weatherIcon.setAttribute("src", iconUrl);
+        
+          
+          // // Today
+          // const todayDate = data.list[0].dt_txt.split(" ")[0];
+          // const currentWeatherEl = createWeatherBox(
+          //   data.list[0],
+          //   minMaxTemps[todayDate]
+          // );
+          // weatherContainerEl.appendChild(currentWeatherEl);
+          // citySearchEl.textContent =
+          //   data.city.name + ", " + data.city.country;
+
+          // // 5-Day Forecast
+
+          // const middayForecastData = data.list.filter((item) =>
+          //   item.dt_txt.includes("12:00:00")
+          // );
+
+          // middayForecastData.slice(0, 6).forEach((day) => {
+          //   const date = day.dt_txt.split(" ")[0];
+          //   const fiveDayForecastWeatherEl = createWeatherBox(
+          //     day,
+          //     minMaxTemps[date]
+          //   );
+          //   fiveDayForecastEl.appendChild(fiveDayForecastWeatherEl);
+          // });
+
+return;
         });
       } else {
         alert("Error: " + response.statusText);
