@@ -1,7 +1,8 @@
-const searchButton = document.querySelector("#submit-form")
+const searchButton = document.querySelector("#submit-form");
+var fiveDayForecastEl = document.querySelector("#weather-forecast");
 const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 var cityEl = document.querySelector("#city-name");
-var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8"
+var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
 var temp = {};
 function formSubmitHandler(event) {
@@ -42,6 +43,7 @@ for (let i = 0; i < searchHistory.length; i++) {
     "&appid=" +
     ApiKey;
 
+
   //    var city was here I moved it to the top to test///
   fetch(apiUrl)
     .then(res => res.json())
@@ -55,28 +57,16 @@ for (let i = 0; i < searchHistory.length; i++) {
       var lat = data[0].lat;
       var lon = data[0].lon;
       displayWeather(lat, lon);
-
-// Trying out this function to see if it works//
-
-      
-      // document.querySelector(".box-bodyTemp").innerHTML="Temp: "+data.main.temp+"℉"
-      // document.querySelector(".box-maxTemp").innerHTML="Max Temp: "+data.main.temp_max+"℉"
-      // document.querySelector(".box-minTemp").innerHTML="Min Temp: "+data.main.temp_min+"℉"
-      // document.querySelector(".box-Humidity").innerHTML="Humidity: "+data.main.humidity+"%"
-      // document.querySelector(".boxCityName").innerHTML="City name: "+data.name
-      // document.querySelector(".icons").innerHTML="Icon: "+data.weather[0].icon
-    })
-}
+    });
 
 function displayWeather(lat, lon) {
   // var weatherContainerEl = document.querySelector("#weather-container");
-  // var fiveDayForecastEl = document.querySelector("#forecast-container");
   // var citySearchEl = document.querySelector("#city-search-term");
   // var weatherBox = document.querySelector("#weather-box");
 
   // weatherContainerEl.innerHTML = "";
   // citySearchEl.innerHTML = "";
-  // fiveDayForecastEl.innerHTML = "";
+  fiveDayForecastEl.innerHTML = "";
 
   // weatherBox.style.visibility = "visible";
 
@@ -96,6 +86,9 @@ function displayWeather(lat, lon) {
         response.json().then(function (data) {
           let weatherIcon= document.querySelector(".icons");
           console.log(data);
+
+          fiveDayForecast(data);
+
       temp = data;
           // const minMaxTemps = getMinMaxTemp(data);
           
@@ -135,7 +128,8 @@ function displayWeather(lat, lon) {
           //   );
           //   fiveDayForecastEl.appendChild(fiveDayForecastWeatherEl);
           // });
-          return;
+
+return;
         });
       } else {
         alert("Error: " + response.statusText);
@@ -146,8 +140,86 @@ function displayWeather(lat, lon) {
     });
 }
 
-// Section to modify as neede //
-function createWeatherBox(day, minMaxTemp) {
+function fiveDayForecast(data) {
+  const minMaxTemps = getMinMaxTemp(data);
+  const minMaxHumidity = getMinMaxHumidity(data);
+  const groupedData = groupByDay(data);
+  const dates = Object.keys(groupedData).slice(0, 6);
+
+  // 5-Day Forecast
+
+  dates.forEach((date) => {
+    const day = groupedData[date].find((item) =>
+    item.dt_txt.includes("12:00:00")
+    ) || groupedData[date][0];
+
+    const fiveDayForecastWeatherEl = createWeatherBox(day, minMaxTemps[date], minMaxHumidity[date]);
+    fiveDayForecastEl.appendChild(fiveDayForecastWeatherEl);
+  })
+}
+
+function groupByDay(data) {
+  const groupedData = {};
+
+  for (var i = 0; i < data.list.length; i++) {
+    var dateObj = data.list[i];
+    const date = dateObj.dt_txt.split(" ")[0];
+    if (!groupedData[date]) {
+      groupedData[date] = [];
+    }
+    groupedData[date].push(dateObj);
+  }
+console.log("Grouped data: " + groupedData[0]);
+  return groupedData;
+}
+
+function getMinMaxTemp(data) {
+  const groupedData = groupByDay(data);
+  const dailyMinMax = {};
+
+  for (const date in groupedData) {
+    const dailyData = groupedData[date];
+    let minTemp = Number.MAX_VALUE;
+    let maxTemp = Number.MIN_VALUE;
+
+    dailyData.forEach((item) => {
+      minTemp = Math.min(minTemp, item.main.temp_min);
+      maxTemp = Math.max(maxTemp, item.main.temp_max);
+    });
+
+    dailyMinMax[date] = {
+      minTemp,
+      maxTemp,
+    };
+  }
+
+  return dailyMinMax;
+}
+
+function getMinMaxHumidity(data) {
+  const groupedData = groupByDay(data);
+  const dailyMinMax = {};
+
+  for (const date in groupedData) {
+    const dailyData = groupedData[date];
+    let minHum = Number.MAX_VALUE;
+    let maxHum = Number.MIN_VALUE;
+
+    dailyData.forEach((item) => {
+      minHumidity = Math.min(minHum, item.main.humidity);
+      maxHumidity = Math.max(maxHum, item.main.humidity);
+    });
+
+    dailyMinMax[date] = {
+      minHumidity,
+      maxHumidity
+    };
+  }
+
+  return dailyMinMax;
+}
+
+function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   const cardDiv = document.createElement("div");
   const cardDivBody = document.createElement("div");
   const forecastDate = document.createElement("h3");
@@ -155,17 +227,20 @@ function createWeatherBox(day, minMaxTemp) {
   const weatherDescription = document.createElement("span");
   const weatherConditionsTemp = document.createElement("p");
   const weatherConditionsWind = document.createElement("p");
-  const weatherConditionsHum = document.createElement("p");
+  const weatherConditionsHumMinMax = document.createElement("p");
   const weatherConditionsMinMax = document.createElement("p");
-  cardDiv.classList.add("card");
+
+  cardDiv.classList = "card";
   cardDivBody.classList = "card-content";
-  forecastDate.classList = "card-title fc-title";
-  // chainging the card list to ?//
-  weatherIcon.classList = "card-img-top fc-icon";
-  weatherConditionsTemp.classList = "card-text fc-text";
-  weatherConditionsWind.classList = "card-text fc-text";
-  weatherConditionsHum.classList = "card-text fc-text";
-  weatherConditionsMinMax.classList = "card-text fc-text";
+  forecastDate.classList = "card-header-title";
+  weatherDescription.classList = "content";
+  weatherIcon.classList = "card-header-icon";
+
+  weatherConditionsTemp.classList = "card-content";
+  weatherConditionsWind.classList = "card-content";
+  weatherConditionsHumMinMax.classList = "card-content";
+  weatherConditionsMinMax.classList = "card-content";
+
 
   let iconCode = day.weather[0].icon;
   let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
@@ -179,7 +254,11 @@ function createWeatherBox(day, minMaxTemp) {
     minMaxTemp.maxTemp +
     "\xB0F";
   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
-  weatherConditionsHum.textContent = "Humidity: " + day.main.humidity + "%";
+  weatherConditionsHumMinMax.textContent = "Humidity: Min: " +
+    minMaxHumidity.minHumidity +
+    "%, Max: " +
+    minMaxHumidity.maxTemp +
+    "%";
   let dateObj = new Date(day.dt * 1000);
   let options = {
     weekday: "long",
@@ -189,13 +268,58 @@ function createWeatherBox(day, minMaxTemp) {
   };
   let formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObj);
   forecastDate.textContent = formattedDate;
+
   cardDivBody.appendChild(weatherConditionsTemp);
   cardDivBody.appendChild(weatherConditionsMinMax);
   cardDivBody.appendChild(weatherConditionsWind);
-  cardDivBody.appendChild(weatherConditionsHum);
+  cardDivBody.appendChild(weatherConditionsHumMinMax);
   cardDiv.appendChild(forecastDate);
   cardDiv.appendChild(weatherIcon);
   cardDiv.appendChild(weatherDescription);
   cardDiv.appendChild(cardDivBody);
   return cardDiv;
 }
+
+// function createLineBox(day, minMaxTemp, minMaxHumidity, minMaxWind) {
+
+//   const weatherTable = document.createElement("table");
+//   const weatherTableBody = document.createElement("tbody");
+//   const weatherTableRow = document.createElement("tr");
+
+//   const weatherConditionsTemp = document.createElement("td");
+//   const weatherConditionsTempSpan = document.createElement("span");
+
+//   const weatherConditionsWind = document.createElement("td");
+//   const weatherConditionsWindSpan = document.createElement("span");
+
+//   const weatherConditionsHum = document.createElement("td");
+//   const weatherConditionsHumSpan = document.createElement("span");
+
+//   const weatherConditionsTempMinMax = document.createElement("td");
+//   const weatherConditionsTempMinMaxSpan = document.createElement("span");
+
+//   weatherTable.classList = "charts-css line";
+//   weatherTable.getElementsByTagName("span").classList = "data";
+//   weatherConditionsTempMinMax.style("--start: "+ minMaxTemp.minTemp);
+  
+
+//   weatherConditionsTempMinMax.textContent =
+//     "Min: " +
+//     minMaxTemp.minTemp +
+//     "\xB0F, Max: " +
+//     minMaxTemp.maxTemp +
+//     "\xB0F";
+//   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
+//   weatherConditionsHum.textContent = "Humidity: " + day.main.humidity + "%";
+
+//   forecastDate.textContent = formattedDate;
+//   cardDivBody.appendChild(weatherConditionsTemp);
+//   cardDivBody.appendChild(weatherConditionsTempMinMax);
+//   cardDivBody.appendChild(weatherConditionsWind);
+//   cardDivBody.appendChild(weatherConditionsHum);
+//   cardDiv.appendChild(forecastDate);
+//   cardDiv.appendChild(weatherIcon);
+//   cardDiv.appendChild(weatherDescription);
+//   cardDiv.appendChild(cardDivBody);
+//   return cardDiv;
+// }
