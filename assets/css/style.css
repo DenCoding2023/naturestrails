@@ -1,9 +1,11 @@
-.navbar{
+.navbar {}
 
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.logo{
-    display:block;
-    margin-left:auto;
-    margin-right:auto;
-    }
+.is-horizontal-center {
+    justify-content:
+}
