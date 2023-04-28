@@ -3,7 +3,7 @@ const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 var cityEl = document.querySelector("#city-name");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8"
 var limit = 1;
-
+var temp = {};
 function formSubmitHandler(event) {
   event.preventDefault();
   console.log("Pressing submit.");
@@ -26,7 +26,7 @@ function searchWeather(city) {
   console.log(searchHistory)
   localStorage.setItem('search-history', JSON.stringify(searchHistory))
 
-  for (let i = 0; i < searchHistory.length; i++) {
+for (let i = 0; i < searchHistory.length; i++) {
     var list = document.createElement("li");
     list.setAttribute("class", "list-group-item");
     list.setAttribute("id", "city-name");
@@ -42,20 +42,23 @@ function searchWeather(city) {
     "&appid=" +
     ApiKey;
 
-
-
-
   //    var city was here I moved it to the top to test///
   fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
       console.log(data)
+      
+
+      let weatherIcon= document.querySelector("#weather-container");
+      // console.log(data)
 
       var lat = data[0].lat;
       var lon = data[0].lon;
       displayWeather(lat, lon);
 
-      // document.querySelector(".box-bodyToday").innerHTML="Wind Speed: "+data.wind.speed+"MPH"
+// Trying out this function to see if it works//
+
+      
       // document.querySelector(".box-bodyTemp").innerHTML="Temp: "+data.main.temp+"℉"
       // document.querySelector(".box-maxTemp").innerHTML="Max Temp: "+data.main.temp_max+"℉"
       // document.querySelector(".box-minTemp").innerHTML="Min Temp: "+data.main.temp_min+"℉"
@@ -91,9 +94,23 @@ function displayWeather(lat, lon) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
+          let weatherIcon= document.querySelector(".icons");
           console.log(data);
+      temp = data;
           // const minMaxTemps = getMinMaxTemp(data);
+          
+          document.querySelector("#name-city").innerHTML="City Name: "+data.city.name;
+          document.querySelector("#weather-container").innerHTML="Temp: "+data.list[0].main.temp+"℉";
+          document.querySelector("#humid-container").innerHTML="Humidity: "+data.list[0].main.humidity+"%";
+          document.querySelector("#w-speed").innerHTML="Wind: "+data.list[0].wind.speed+" MLP"
+          document.querySelector("#description").innerHTML="Weather Conditions: "+data.list[0].weather[0].description;
+          document.querySelector(".icons").innerHTML="Weather Icon: "+data.list[0].weather[0].icon
 
+          let iconCode = data.list[0].weather[0].icon
+          let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+          weatherIcon.setAttribute("src", iconUrl);
+        
+          
           // // Today
           // const todayDate = data.list[0].dt_txt.split(" ")[0];
           // const currentWeatherEl = createWeatherBox(
