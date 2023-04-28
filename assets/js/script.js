@@ -58,6 +58,7 @@ for (let i = 0; i < searchHistory.length; i++) {
       var lon = data[0].lon;
       displayWeather(lat, lon);
     });
+  }
 
 function displayWeather(lat, lon) {
   // var weatherContainerEl = document.querySelector("#weather-container");
