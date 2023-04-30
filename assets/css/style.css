@@ -9,3 +9,8 @@
 .is-horizontal-center {
     justify-content:
 }
+
+#weather-box {
+    visibility: hidden;
+    padding-left: 20px;
+}

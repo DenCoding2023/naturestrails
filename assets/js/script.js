@@ -1,10 +1,15 @@
 const searchButton = document.querySelector("#submit-form");
-var fiveDayForecastEl = document.querySelector("#weather-forecast");
+const fiveDayForecastEl = document.querySelector("#weather-forecast");
+const mapContainerEl = document.querySelector("#map-display");
+const weatherBox = document.querySelector("#weather-box");
+const forecastBox = document.querySelector("#forecast-box");
+const cityEl = document.querySelector("#city-name");
 const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
-var cityEl = document.querySelector("#city-name");
+
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
 var temp = {};
+
 function formSubmitHandler(event) {
   event.preventDefault();
   console.log("Pressing submit.");
@@ -22,12 +27,12 @@ function formSubmitHandler(event) {
 searchButton.addEventListener("submit", formSubmitHandler);
 
 function searchWeather(city) {
-  var searchHistory = []
+  var searchHistory = [];
   searchHistory.push(city);
-  console.log(searchHistory)
-  localStorage.setItem('search-history', JSON.stringify(searchHistory))
+  console.log(searchHistory);
+  localStorage.setItem("search-history", JSON.stringify(searchHistory));
 
-for (let i = 0; i < searchHistory.length; i++) {
+  for (let i = 0; i < searchHistory.length; i++) {
     var list = document.createElement("li");
     list.setAttribute("class", "list-group-item");
     list.setAttribute("id", "city-name");
@@ -43,22 +48,33 @@ for (let i = 0; i < searchHistory.length; i++) {
     "&appid=" +
     ApiKey;
 
-
   //    var city was here I moved it to the top to test///
+
   fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      
-
-      let weatherIcon= document.querySelector("#weather-container");
-      // console.log(data)
-
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch weather data: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
       var lat = data[0].lat;
       var lon = data[0].lon;
       displayWeather(lat, lon);
+      return convertLatLon(lat, lon);
+    })
+    .then((converted) => {
+      if (converted) {
+        const { x, y } = converted;
+        displayMap(x, y);
+      } else {
+        console.error("Conversion failed.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error during fetch or conversion:", error);
     });
-  }
+}
 
 function displayWeather(lat, lon) {
   // var weatherContainerEl = document.querySelector("#weather-container");
@@ -68,8 +84,10 @@ function displayWeather(lat, lon) {
   // weatherContainerEl.innerHTML = "";
   // citySearchEl.innerHTML = "";
   fiveDayForecastEl.innerHTML = "";
+  mapContainerEl.innerHTML = "";
 
-  // weatherBox.style.visibility = "visible";
+  weatherBox.style.visibility = "visible";
+
 
   var lat = lat;
   var lon = lon;
@@ -85,52 +103,29 @@ function displayWeather(lat, lon) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          let weatherIcon= document.querySelector(".icons");
-          console.log(data);
+          let weatherIcon = document.querySelector(".icons");
 
+          console.log(data);
           fiveDayForecast(data);
 
-      temp = data;
-          // const minMaxTemps = getMinMaxTemp(data);
-          
-          document.querySelector("#name-city").innerHTML="City Name: "+data.city.name;
-          document.querySelector("#weather-container").innerHTML="Temp: "+data.list[0].main.temp+"℉";
-          document.querySelector("#humid-container").innerHTML="Humidity: "+data.list[0].main.humidity+"%";
-          document.querySelector("#w-speed").innerHTML="Wind: "+data.list[0].wind.speed+" MLP"
-          document.querySelector("#description").innerHTML="Weather Conditions: "+data.list[0].weather[0].description;
-          document.querySelector(".icons").innerHTML="Weather Icon: "+data.list[0].weather[0].icon
+          document.querySelector("#name-city").innerHTML =
+            "City Name: " + data.city.name;
+          document.querySelector("#weather-container").innerHTML =
+            "Temp: " + data.list[0].main.temp + "℉";
+          document.querySelector("#humid-container").innerHTML =
+            "Humidity: " + data.list[0].main.humidity + "%";
+          document.querySelector("#w-speed").innerHTML =
+            "Wind: " + data.list[0].wind.speed + " MLP";
+          document.querySelector("#description").innerHTML =
+            "Weather Conditions: " + data.list[0].weather[0].description;
+          document.querySelector(".icons").innerHTML =
+            "Weather Icon: " + data.list[0].weather[0].icon;
 
-          let iconCode = data.list[0].weather[0].icon
+          let iconCode = data.list[0].weather[0].icon;
           let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
           weatherIcon.setAttribute("src", iconUrl);
-        
-          
-          // // Today
-          // const todayDate = data.list[0].dt_txt.split(" ")[0];
-          // const currentWeatherEl = createWeatherBox(
-          //   data.list[0],
-          //   minMaxTemps[todayDate]
-          // );
-          // weatherContainerEl.appendChild(currentWeatherEl);
-          // citySearchEl.textContent =
-          //   data.city.name + ", " + data.city.country;
 
-          // // 5-Day Forecast
-
-          // const middayForecastData = data.list.filter((item) =>
-          //   item.dt_txt.includes("12:00:00")
-          // );
-
-          // middayForecastData.slice(0, 6).forEach((day) => {
-          //   const date = day.dt_txt.split(" ")[0];
-          //   const fiveDayForecastWeatherEl = createWeatherBox(
-          //     day,
-          //     minMaxTemps[date]
-          //   );
-          //   fiveDayForecastEl.appendChild(fiveDayForecastWeatherEl);
-          // });
-
-return;
+          return;
         });
       } else {
         alert("Error: " + response.statusText);
@@ -139,6 +134,35 @@ return;
     .catch(function (error) {
       alert("Unable to connect to OpenWeatherMap: " + error);
     });
+}
+
+function createMap(x, y) {
+  const map = document.createElement("iframe");
+  map.style.width = "100%";
+  map.style.maxWidth = "1200px";
+  map.style.height = "500px";
+  map.classList = "has-ratio"
+  map.src = `https://hikingproject.com/widget/map?favs=1&location=fixed&x=${x}&y=${y}&z=10&h=10`;
+  console.log(map.src);
+  return map;
+}
+
+function displayMap(x, y) {
+  const mapEl = createMap(x, y);
+  mapContainerEl.appendChild(mapEl);
+}
+
+function convertLatLon(lat, lon) {
+  const webMercator = proj4('EPSG:3857');
+
+  function latLngToXY(lat, lon) {
+    const converted = webMercator.forward([lon, lat]);
+    return { x: converted[0], y: converted[1] };
+  }
+
+  const coordinates = latLngToXY(lat, lon);
+  const  { x, y } = coordinates;
+  return { x, y };
 }
 
 function fiveDayForecast(data) {
@@ -150,13 +174,17 @@ function fiveDayForecast(data) {
   // 5-Day Forecast
 
   dates.forEach((date) => {
-    const day = groupedData[date].find((item) =>
-    item.dt_txt.includes("12:00:00")
-    ) || groupedData[date][0];
+    const day =
+      groupedData[date].find((item) => item.dt_txt.includes("12:00:00")) ||
+      groupedData[date][0];
 
-    const fiveDayForecastWeatherEl = createWeatherBox(day, minMaxTemps[date], minMaxHumidity[date]);
+    const fiveDayForecastWeatherEl = createWeatherBox(
+      day,
+      minMaxTemps[date],
+      minMaxHumidity[date]
+    );
     fiveDayForecastEl.appendChild(fiveDayForecastWeatherEl);
-  })
+  });
 }
 
 function groupByDay(data) {
@@ -170,7 +198,6 @@ function groupByDay(data) {
     }
     groupedData[date].push(dateObj);
   }
-console.log("Grouped data: " + groupedData[0]);
   return groupedData;
 }
 
@@ -203,6 +230,7 @@ function getMinMaxHumidity(data) {
 
   for (const date in groupedData) {
     const dailyData = groupedData[date];
+    console.log("Daily data: " + dailyData);
     let minHum = Number.MAX_VALUE;
     let maxHum = Number.MIN_VALUE;
 
@@ -213,7 +241,7 @@ function getMinMaxHumidity(data) {
 
     dailyMinMax[date] = {
       minHumidity,
-      maxHumidity
+      maxHumidity,
     };
   }
 
@@ -242,7 +270,6 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsHumMinMax.classList = "card-content";
   weatherConditionsMinMax.classList = "card-content";
 
-
   let iconCode = day.weather[0].icon;
   let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
   weatherIcon.setAttribute("src", iconUrl);
@@ -255,7 +282,8 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
     minMaxTemp.maxTemp +
     "\xB0F";
   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
-  weatherConditionsHumMinMax.textContent = "Humidity: Min: " +
+  weatherConditionsHumMinMax.textContent =
+    "Humidity: Min: " +
     minMaxHumidity.minHumidity +
     "%, Max: " +
     minMaxHumidity.maxTemp +
@@ -302,7 +330,6 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
 //   weatherTable.classList = "charts-css line";
 //   weatherTable.getElementsByTagName("span").classList = "data";
 //   weatherConditionsTempMinMax.style("--start: "+ minMaxTemp.minTemp);
-  
 
 //   weatherConditionsTempMinMax.textContent =
 //     "Min: " +
