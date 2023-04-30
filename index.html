@@ -17,7 +17,7 @@
             </div>
             <div>
                 <figure class="is-flex is-horizontal-center">
-                    <img class="logo" src="./assets/images/treepath.png" width="100" height="">
+                    <img class="image is-square" src="./assets/images/treepath.png" width="100" height="">
                 </figure>
             </div>
         </div>
@@ -26,9 +26,11 @@
 
 <body>
 
-    <main class="flex-row justify-space-between">
-        <div id="sidebar" class="col-12 col-md-3">
-            <div class="card city-search">
+    <main class="columns m-1">
+
+
+        <section id="sidebar" class="column is-one-quarter">
+            <div class="card city-search ">
                 <h3 class="card-header text-uppercase">Search By City</h3>
                 <form id="submit-form" class="card-body ">
                     <input name="city-name" id="city-name" type="text" autofocus="true" class="form-input"
@@ -44,29 +46,31 @@
                         <li class="list-group-item"></li>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="weather-box">
-            <h2>header</h2>
-            <div id="name-city" class="location">City Name:</div>
-            <div id="weather-container" class="textVal">Temp:</div>
-            <div id="humid-container">Humidity:</div>
-            <div id="w-speed">Wind</div>
-            <div id="description">Weather Conditions:</div>
-            <img class="icons">Weather Icon:</img>
-
-            <div id="map-box" visibility="hidden">
-                <h3>Map</h3>
-                <div id="map-display"></div>
+        <section id="weather-box" class="column">
+            <div>
+                <h2>header</h2>
+                <div id="name-city" class="location">City Name:</div>
+                <div id="weather-container" class="textVal">Temp:</div>
+                <div id="humid-container">Humidity:</div>
+                <div id="w-speed">Wind</div>
+                <div id="description">Weather Conditions:</div>
+                <img class="icons">Weather Icon:</img>
             </div>
-
-            <div id="forecast-box">
-                <h3>5-Day Forecast</h3>
-                <div id="weather-forecast"></div>
+            <div>
+                <div id="map-box" visibility="hidden">
+                    <h3>Map</h3>
+                    <div id="map-display"></div>
+                </div>
             </div>
-
-
-        </div>
+            <div>
+                <div id="forecast-box" >
+                    <h3>5-Day Forecast</h3>
+                    <div id="weather-forecast" class="is-flex is-flex-wrap-wrap"></div>
+                </div>
+            </div>
+        </section>
 
 
 

@@ -141,6 +141,7 @@ function createMap(x, y) {
   map.style.width = "100%";
   map.style.maxWidth = "1200px";
   map.style.height = "500px";
+  map.classList = "has-ratio"
   map.src = `https://hikingproject.com/widget/map?favs=1&location=fixed&x=${x}&y=${y}&z=10&h=10`;
   console.log(map.src);
   return map;
@@ -229,6 +230,7 @@ function getMinMaxHumidity(data) {
 
   for (const date in groupedData) {
     const dailyData = groupedData[date];
+    console.log("Daily data: " + dailyData);
     let minHum = Number.MAX_VALUE;
     let maxHum = Number.MIN_VALUE;
 
