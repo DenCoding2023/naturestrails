@@ -15,11 +15,11 @@
             <div class="field is-grouped">
                 <h1 class="app-title">Nature Trails</h1>
             </div>
-           <div>
-            <figure class="is-flex is-horizontal-center">
-                <img class="logo" src="/assets/images/treepath.png" width="100" height="">
-            </figure>
-           </div>
+            <div>
+                <figure class="is-flex is-horizontal-center">
+                    <img class="logo" src="./assets/images/treepath.png" width="100" height="">
+                </figure>
+            </div>
         </div>
     </nav>
 </header>
@@ -51,21 +51,29 @@
             <div id="name-city" class="location">City Name:</div>
             <div id="weather-container" class="textVal">Temp:</div>
             <div id="humid-container">Humidity:</div>
-            <div id= "w-speed">Wind</div>
+            <div id="w-speed">Wind</div>
             <div id="description">Weather Conditions:</div>
             <img class="icons">Weather Icon:</img>
 
-            <h3>map</h3>
-            <div id="map-container"></div>
+            <div id="map-box" visibility="hidden">
+                <h3>Map</h3>
+                <div id="map-display"></div>
+            </div>
 
-            <h3>weather Forcast</h3>
-            <div id="weather-forecast"></div>
+            <div id="forecast-box">
+                <h3>5-Day Forecast</h3>
+                <div id="weather-forecast"></div>
+            </div>
+
 
         </div>
 
 
 
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"
+        integrity="sha512-lO8f7sIViqr9x5VE6Q72PS6f4FoZcuh5W9YzeSyfNRJ9z/qL3bkweiwG6keGzWS0BQzNDqAWXdBhYzFD6KffIw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 

@@ -35,6 +35,18 @@ SO THAT I can get the most out of my hiking experiences and plan my trips better
 
 ### References
 
+https://fjolt.com/article/javascript-multiple-elements-addeventlistener
+https://tool-online.com/en/map-tools.php
+https://proj.org/operations/projections/merc.html
+https://products.aspose.app/gis/en/transformation/lat-long-to-mercator
+https://gis.stackexchange.com/questions/238243/transform-coordinates-epsg32628-to-epsg3857-openlayers-3
+https://gis.stackexchange.com/questions/48949/epsg-3857-or-4326-for-web-mapping
+https://github.com/proj4js/proj4js
+https://cdnjs.com/libraries/proj4js
+https://openlayers.org/doc/faq.html
+http://proj4js.org/?utm_source=cdnjs&utm_medium=cdnjs_link&utm_campaign=cdnjs_library
+https://gis.stackexchange.com/questions/116145/proj4js-problem-in-converting-coordinates-from-google-mercator
+
 
 ## License
 
