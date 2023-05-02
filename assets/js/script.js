@@ -8,13 +8,12 @@ const cityEl = document.querySelector("#city-input");
 const cityListEl = document.querySelector("#city-list");
 const sidebarEl = document.querySelector("#sidebar");
 const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-var modalMessage = document.querySelector("#modal-message");
+const modal = document.getElementById("myModal");
+const span = document.getElementsByClassName("close")[0];
+const modalMessage = document.querySelector("#modal-message");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
 var maxTableSize = 10;
-
 const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 
 function formSubmitHandler(event) {
@@ -121,7 +120,7 @@ function displayWeather(lat, lon) {
   var lat = lat;
   var lon = lon;
   var apiUrl =
-    "http://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
     "&lon=" +
     lon +
@@ -151,7 +150,7 @@ function displayWeather(lat, lon) {
             "Weather Icon: " + data.list[0].weather[0].icon;
 
           let iconCode = data.list[0].weather[0].icon;
-          let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+          let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
           weatherIcon.setAttribute("src", iconUrl);
 
           return;
@@ -304,7 +303,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsMinMax.classList = "card-content";
 
   let iconCode = day.weather[0].icon;
-  let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+  let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
   weatherIcon.setAttribute("src", iconUrl);
   weatherDescription.textContent = day.weather[0].description;
   weatherConditionsTemp.textContent = "Temp: " + day.main.temp + "\xB0F";
