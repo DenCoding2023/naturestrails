@@ -120,7 +120,7 @@ function displayWeather(lat, lon) {
   var lat = lat;
   var lon = lon;
   var apiUrl =
-    "http://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
     "&lon=" +
     lon +
@@ -150,7 +150,7 @@ function displayWeather(lat, lon) {
             "Weather Icon: " + data.list[0].weather[0].icon;
 
           let iconCode = data.list[0].weather[0].icon;
-          let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+          let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
           weatherIcon.setAttribute("src", iconUrl);
 
           return;
@@ -303,7 +303,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsMinMax.classList = "card-content";
 
   let iconCode = day.weather[0].icon;
-  let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+  let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
   weatherIcon.setAttribute("src", iconUrl);
   weatherDescription.textContent = day.weather[0].description;
   weatherConditionsTemp.textContent = "Temp: " + day.main.temp + "\xB0F";
