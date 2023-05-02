@@ -8,13 +8,12 @@ const cityEl = document.querySelector("#city-input");
 const cityListEl = document.querySelector("#city-list");
 const sidebarEl = document.querySelector("#sidebar");
 const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-var modalMessage = document.querySelector("#modal-message");
+const modal = document.getElementById("myModal");
+const span = document.getElementsByClassName("close")[0];
+const modalMessage = document.querySelector("#modal-message");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
 var maxTableSize = 10;
-
 const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 
 function formSubmitHandler(event) {
