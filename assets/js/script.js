@@ -1,43 +1,59 @@
-const searchButton = document.querySelector("#submit-form");
+const submitForm = document.querySelector("#submit-form");
+const submitButton = document.querySelector("#submit");
 const fiveDayForecastEl = document.querySelector("#weather-forecast");
 const mapContainerEl = document.querySelector("#map-display");
 const weatherBox = document.querySelector("#weather-box");
 const forecastBox = document.querySelector("#forecast-box");
-const cityEl = document.querySelector("#city-name");
-const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
-
+const cityEl = document.querySelector("#city-input");
+const cityListEl = document.querySelector("#city-list");
+const sidebarEl = document.querySelector("#sidebar");
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
+var modalMessage = document.querySelector("#modal-message");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
-var temp = {};
+
+const cityNamePattern = /^([a-zA-Z\s]+)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 
 function formSubmitHandler(event) {
   event.preventDefault();
-  console.log("Pressing submit.");
   var value = cityEl.value.trim();
 
   if (cityNamePattern.test(value)) {
     var city = value;
     searchWeather(city);
+    console.log("not processing cityname test");
   } else {
-    alert("Invalid input.");
+      modal.style.display = "block";
+      modalMessage.textContent = "Invalid city name. Please enter a valid city."
   }
 }
 
-// Added a event lisitner with the API key to set tem, humidity and city name//
-searchButton.addEventListener("submit", formSubmitHandler);
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 
 function searchWeather(city) {
   var searchHistory = [];
   searchHistory.push(city);
   console.log(searchHistory);
-  localStorage.setItem("search-history", JSON.stringify(searchHistory));
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+
 
   for (let i = 0; i < searchHistory.length; i++) {
     var list = document.createElement("li");
     list.setAttribute("class", "list-group-item");
     list.setAttribute("id", "city-name");
     list.textContent = searchHistory[i];
-    cityEl.appendChild(list);
+    cityListEl.appendChild(list);
   }
 
   var apiUrl =
@@ -69,10 +85,12 @@ function searchWeather(city) {
         displayMap(x, y);
       } else {
         console.error("Conversion failed.");
+        modal.style.display = "block";
       }
     })
     .catch((error) => {
       console.error("Error during fetch or conversion:", error);
+      modal.style.display = "block";
     });
 }
 
@@ -128,11 +146,13 @@ function displayWeather(lat, lon) {
           return;
         });
       } else {
-        alert("Error: " + response.statusText);
+        modal.style.display = "block";
+        modalMessage.textContent - "Error: " + response.statusText
       }
     })
     .catch(function (error) {
-      alert("Unable to connect to OpenWeatherMap: " + error);
+      modal.style.display = "block";
+      modalMessage.textContent - "Unable to connect to OpenWeatherMap: " + error
     });
 }
 
@@ -226,7 +246,7 @@ function getMinMaxTemp(data) {
 
 function getMinMaxHumidity(data) {
   const groupedData = groupByDay(data);
-  const dailyMinMax = {};
+  const dailyMinMaxHum = {};
 
   for (const date in groupedData) {
     const dailyData = groupedData[date];
@@ -239,13 +259,13 @@ function getMinMaxHumidity(data) {
       maxHumidity = Math.max(maxHum, item.main.humidity);
     });
 
-    dailyMinMax[date] = {
+    dailyMinMaxHum[date] = {
       minHumidity,
       maxHumidity,
     };
   }
 
-  return dailyMinMax;
+  return dailyMinMaxHum;
 }
 
 function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
@@ -309,45 +329,4 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   return cardDiv;
 }
 
-// function createLineBox(day, minMaxTemp, minMaxHumidity, minMaxWind) {
-
-//   const weatherTable = document.createElement("table");
-//   const weatherTableBody = document.createElement("tbody");
-//   const weatherTableRow = document.createElement("tr");
-
-//   const weatherConditionsTemp = document.createElement("td");
-//   const weatherConditionsTempSpan = document.createElement("span");
-
-//   const weatherConditionsWind = document.createElement("td");
-//   const weatherConditionsWindSpan = document.createElement("span");
-
-//   const weatherConditionsHum = document.createElement("td");
-//   const weatherConditionsHumSpan = document.createElement("span");
-
-//   const weatherConditionsTempMinMax = document.createElement("td");
-//   const weatherConditionsTempMinMaxSpan = document.createElement("span");
-
-//   weatherTable.classList = "charts-css line";
-//   weatherTable.getElementsByTagName("span").classList = "data";
-//   weatherConditionsTempMinMax.style("--start: "+ minMaxTemp.minTemp);
-
-//   weatherConditionsTempMinMax.textContent =
-//     "Min: " +
-//     minMaxTemp.minTemp +
-//     "\xB0F, Max: " +
-//     minMaxTemp.maxTemp +
-//     "\xB0F";
-//   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
-//   weatherConditionsHum.textContent = "Humidity: " + day.main.humidity + "%";
-
-//   forecastDate.textContent = formattedDate;
-//   cardDivBody.appendChild(weatherConditionsTemp);
-//   cardDivBody.appendChild(weatherConditionsTempMinMax);
-//   cardDivBody.appendChild(weatherConditionsWind);
-//   cardDivBody.appendChild(weatherConditionsHum);
-//   cardDiv.appendChild(forecastDate);
-//   cardDiv.appendChild(weatherIcon);
-//   cardDiv.appendChild(weatherDescription);
-//   cardDiv.appendChild(cardDivBody);
-//   return cardDiv;
-// }
+submitForm.addEventListener("submit", formSubmitHandler);
