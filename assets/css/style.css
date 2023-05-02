@@ -14,3 +14,30 @@
     visibility: hidden;
     padding-left: 20px;
 }
+/* Added styles to the wether box in the main display */
+
+#weather-box h2{
+    text-align: center;
+    font-size: x-large;
+    font-weight: 900;
+   
+}
+
+#weatehr-box, #name-city, #weather-container
+, #humid-container, #w-speed, #description {
+    font-size: x-large;
+    font-weight: 400;
+}
+
+#weather-box h3{
+    text-align: center;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+img.icons {
+    width: 70px; /* Change this to the desired width */
+    height: 90px; /* Change this to the desired height */
+    vertical-align: top; /* Align the image to the top of the line-height */
+      
+  }
