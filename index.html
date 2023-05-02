@@ -33,7 +33,7 @@
             <div class="card city-search ">
                 <h3 class="card-header text-uppercase">Search By City</h3>
                 <form id="submit-form" class="card-body ">
-                    <input name="city-name" id="city-name" type="text" autofocus="true" class="form-input"
+                    <input name="city-name" id="city-input" type="text" autofocus="true" class="form-input"
                         placeholder="Boston, MA, US or London, GB" />
                     <button type="submit" class="button is-info">Search</button>
                     <span>For best results search by city, state and country code, or city and country code.</span>
@@ -42,11 +42,17 @@
             <div class="card city-search">
                 <h3 class="card-header text-uppercase">Search History</h3>
                 <div id="search-history" class="card-body">
-                    <ul class="list-group list group-flush" id="city-name">
+                    <ul class="list-group list group-flush" id="city-list">
                         <li class="list-group-item"></li>
                         <div id="storagePlacement"></div>
                 </div>
             </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <p id="modal-message">An error occurred, please try again.</p>
+                </div>
+              </div>
         </section>
 
         <section id="weather-box" class="column">
