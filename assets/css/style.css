@@ -1,14 +1,23 @@
-.navbar {}
+.navbar {
+align-items:stretch;
+display:flex;
+}
+.is-paddingless{
+    padding: 0 !important;
+}
+
 
 .logo {
-    display: block;
+    display: ;
     margin-left: auto;
     margin-right: auto;
 }
 
-.is-horizontal-center {
-    justify-content:
+#span {
+    display: block;
 }
+
+
 
 #weather-box {
     visibility: hidden;
