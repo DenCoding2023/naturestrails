@@ -7,13 +7,14 @@ const forecastBox = document.querySelector("#forecast-box");
 const cityEl = document.querySelector("#city-input");
 const cityListEl = document.querySelector("#city-list");
 const sidebarEl = document.querySelector("#sidebar");
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-var modalMessage = document.querySelector("#modal-message");
+const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+const modal = document.getElementById("myModal");
+const span = document.getElementsByClassName("close")[0];
+const modalMessage = document.querySelector("#modal-message");
 var ApiKey = "7bdab0cf3daa341b1d431ecfe8584de8";
 var limit = 1;
-
-const cityNamePattern = /^([a-zA-Z\s]+)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
+var maxTableSize = 10;
+const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 
 function formSubmitHandler(event) {
   event.preventDefault();
@@ -21,7 +22,9 @@ function formSubmitHandler(event) {
 
   if (cityNamePattern.test(value)) {
     var city = value;
+    cityListEl.innerHTML = "";
     searchWeather(city);
+    displayHistory();
     console.log("not processing cityname test");
   } else {
       modal.style.display = "block";
@@ -29,25 +32,17 @@ function formSubmitHandler(event) {
   }
 }
 
-// When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
 }
 
-function searchWeather(city) {
-  var searchHistory = [];
-  searchHistory.push(city);
-  console.log(searchHistory);
-  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-
-
+function displayHistory() {
   for (let i = 0; i < searchHistory.length; i++) {
     var list = document.createElement("li");
     list.setAttribute("class", "list-group-item");
@@ -55,6 +50,26 @@ function searchWeather(city) {
     list.textContent = searchHistory[i];
     cityListEl.appendChild(list);
   }
+}
+
+function searchWeather(city) {
+
+  var limit = 1;
+
+  searchHistory.push(city);
+
+  const cityIndex = searchHistory.indexOf(city);
+  if (cityIndex > -1) {
+    searchHistory.splice(cityIndex, 1);
+  }
+
+  if (searchHistory.length >= maxTableSize) {
+    searchHistory.pop();
+  }
+
+  searchHistory.unshift(city);
+
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
   var apiUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -64,12 +79,11 @@ function searchWeather(city) {
     "&appid=" +
     ApiKey;
 
-  //    var city was here I moved it to the top to test///
-
   fetch(apiUrl)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`Failed to fetch weather data: ${res.status}`);
+
       }
       return res.json();
     })
@@ -85,22 +99,18 @@ function searchWeather(city) {
         displayMap(x, y);
       } else {
         console.error("Conversion failed.");
+        modalMessage.textContent = "Conversion failed.";
         modal.style.display = "block";
       }
     })
     .catch((error) => {
       console.error("Error during fetch or conversion:", error);
+      modalMessage.textContent = "Error during fetch or conversion. ", error;
       modal.style.display = "block";
     });
 }
 
 function displayWeather(lat, lon) {
-  // var weatherContainerEl = document.querySelector("#weather-container");
-  // var citySearchEl = document.querySelector("#city-search-term");
-  // var weatherBox = document.querySelector("#weather-box");
-
-  // weatherContainerEl.innerHTML = "";
-  // citySearchEl.innerHTML = "";
   fiveDayForecastEl.innerHTML = "";
   mapContainerEl.innerHTML = "";
 
@@ -110,7 +120,7 @@ function displayWeather(lat, lon) {
   var lat = lat;
   var lon = lon;
   var apiUrl =
-    "http://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
     "&lon=" +
     lon +
@@ -140,19 +150,21 @@ function displayWeather(lat, lon) {
             "Weather Icon: " + data.list[0].weather[0].icon;
 
           let iconCode = data.list[0].weather[0].icon;
-          let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+          let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
           weatherIcon.setAttribute("src", iconUrl);
 
           return;
         });
       } else {
-        modal.style.display = "block";
         modalMessage.textContent - "Error: " + response.statusText
+        modal.style.display = "block";
+        
       }
     })
     .catch(function (error) {
-      modal.style.display = "block";
       modalMessage.textContent - "Unable to connect to OpenWeatherMap: " + error
+      modal.style.display = "block";
+      
     });
 }
 
@@ -291,7 +303,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsMinMax.classList = "card-content";
 
   let iconCode = day.weather[0].icon;
-  let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+  let iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
   weatherIcon.setAttribute("src", iconUrl);
   weatherDescription.textContent = day.weather[0].description;
   weatherConditionsTemp.textContent = "Temp: " + day.main.temp + "\xB0F";
@@ -330,3 +342,4 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
 }
 
 submitForm.addEventListener("submit", formSubmitHandler);
+displayHistory();
