@@ -30,7 +30,8 @@ function searchWeather(city) {
   var searchHistory = [];
   searchHistory.push(city);
   console.log(searchHistory);
-  localStorage.setItem("search-history", JSON.stringify(searchHistory));
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+
 
   for (let i = 0; i < searchHistory.length; i++) {
     var list = document.createElement("li");
@@ -351,3 +352,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
 //   cardDiv.appendChild(cardDivBody);
 //   return cardDiv;
 // }
+// Adding the function to get from local storage to display in the search history.
+
+
+
