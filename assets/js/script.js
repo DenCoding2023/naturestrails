@@ -279,7 +279,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   const weatherConditionsHumMinMax = document.createElement("p");
   const weatherConditionsMinMax = document.createElement("p");
 
-  cardDiv.classList = "card";
+  cardDiv.classList = "card mb-6";
   cardDivBody.classList = "card-content";
   forecastDate.classList = "card-header-title";
   weatherDescription.classList = "content";

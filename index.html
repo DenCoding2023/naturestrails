@@ -10,36 +10,15 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <header>
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <nav class="navbar has-background-primary-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand nowrap">
             <img src="./assets/images/treepath.png" width=60" height="28">
-            <h1 class = " title is-1 is-spaced px-6">NatureTrails</h1>
-            <p class = " subtitle is-6 px-6 my-5 ">Lets walk through nature together</p>
-          <a class="" href="">
-           
-          </a>
-      <!--<div class = "is-paddingless">
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <img class="image is-square" src="<nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-      </a>
-  " width="112" height="28">
-            <div class="field is-grouped">
-                <h1 class="app-title">Nature Trails</h1>
-            </div>
-            <div>
-                <figure class="">-->
-                    <!--<img class="image is-square" src="./assets/images/treepath.png" width="" height="">-->
-                </figure>
-            </div>
-        </div>
-    </nav>
+            <h1 class=" title is-1 is-spaced px-6 my-1">NatureTrails</h1>
+            <p class=" subtitle is-6 px-6 my-5 ">Lets walk through nature together</p>
+
 </header>
 
-<body>
+<body class = "has-background-dark">
 
     <main class="columns m-1">
 
@@ -55,7 +34,8 @@
                 </form>
             </div>
             <div class="card city-search">
-                <h3 class="card-header text-uppercase">Search History</h3>
+                <h3 class="card-header text-uppercase has-background-primary-dark has-text-success-light my-1 ">Search
+                    History</h3>
                 <div id="search-history" class="card-body">
                     <ul class="list-group list group-flush" id="city-list">
                         <li class="list-group-item"></li>
@@ -64,35 +44,34 @@
             </div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
-                  <span class="close">&times;</span>
-                  <p id="modal-message">An error occurred, please try again.</p>
+                    <span class="close">&times;</span>
+                    <p id="modal-message">An error occurred, please try again.</p>
                 </div>
-              </div>
+            </div>
         </section>
 
         <section id="weather-box" class="column">
             <div>
-                <!--<h2>header</h2>-->
 
-                <h2>Weather Information</h2>
+                <h2 class ="has-text-light">Weather Information</h2>
 
-                <div id="name-city" class="location">City Name:</div>
-                <div id="weather-container" class="textVal">Temp:</div>
-                <div id="humid-container">Humidity:</div>
-                <div id="w-speed">Wind</div>
-                <div id="description">Conditions:</div>
+                <div id="name-city" class="location has-text-light">City Name:</div>
+                <div id="weather-container" class="textVal has-text-light">Temp:</div>
+                <div id="humid-container" class = "has-text-light">Humidity:</div>
+                <div id="w-speed" class = "has-text-light">Wind</div>
+                <div id="description" class = "has-text-light">Conditions:</div>
                 <img class="icons"></img>
             </div>
             <div>
-                <div id="map-box" visibility="hidden">
+                <div id="map-box" visibility="hidden" class = "has-text-light">
                     <h3>Availabale Trails in your Area</h3>
                     <div id="map-display"></div>
                 </div>
             </div>
             <div>
-                <div id="forecast-box" >
-                    <h3>5-Day Forecast</h3>
-                    <div id="weather-forecast" class="is-flex is-flex-wrap-wrap"></div>
+                <div id="forecast-box">
+                    <h3 class = "has-text-light py6 my-4">5-Day Forecast</h3>
+                    <div id="weather-forecast" class="is-flex is-flex-wrap-wrap is-justify-content-space-between"></div>
                 </div>
             </div>
         </section>
