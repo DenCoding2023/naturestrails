@@ -13,6 +13,7 @@ SO THAT I can get the most out of my hiking experiences and plan my trips better
 ## Preview
 
 
+## Link to the aplication: https://dencoding2023.github.io/naturestrails/
 
 ### Requirements
 
