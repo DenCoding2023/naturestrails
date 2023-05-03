@@ -42,15 +42,36 @@ window.onclick = function(event) {
   }
 }
 
+// function displayHistory() {
+//   for (let i = 0; i < searchHistory.length; i++) {
+//     var list = document.createElement("li");
+//     list.setAttribute("class", "list-group-item");
+//     list.setAttribute("id", "city-name");
+//     list.textContent = searchHistory[i];
+//     cityListEl.appendChild(list);
+
+//    }
+// }
+
 function displayHistory() {
-  for (let i = 0; i < searchHistory.length; i++) {
-    var list = document.createElement("li");
-    list.setAttribute("class", "list-group-item");
-    list.setAttribute("id", "city-name");
-    list.textContent = searchHistory[i];
-    cityListEl.appendChild(list);
+  const searchHistoryBox = document.querySelector("#search-history");
+  searchHistoryBox.innerHTML = "";
+  for (var i = 0; i < searchHistory.length; i++) {
+    const savedCity = document.createElement("a");
+    savedCity.classList =
+  "saved-city";
+    savedCity.setAttribute =
+      ("href", "./index.html?city-name=" + searchHistory[i]);
+    savedCity.textContent = searchHistory[i];
+    (function (city) {
+      savedCity.addEventListener("click", function () {
+        searchWeather(city);
+      });
+    })(searchHistory[i]);
+    searchHistoryBox.appendChild(savedCity);
   }
 }
+
 
 function searchWeather(city) {
 
