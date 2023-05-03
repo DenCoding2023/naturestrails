@@ -179,9 +179,35 @@ function createMap(x, y) {
   return map;
 }
 
+function createTrailRecMap(x, y) {
+  const map = document.createElement("iframe");
+  map.style.width = "100%";
+  map.style.maxWidth = "600px";
+  map.style.height = "500px";
+  map.classList = "has-ratio"
+  map.src = `https://hikingproject.com/widget/trail?v=3&map=1&type=trail&id=0&x=${x}&y=${y}&z=5`;
+  console.log(map.src);
+  return map;
+}
+
+function createConditionsEl(x, y) {
+  const map = document.createElement("iframe");
+  map.style.width = "100%";
+  map.style.maxWidth = "600px";
+  map.style.height = "500px";
+  map.classList = "has-ratio"
+  map.src = `https://hikingproject.com/widget/conditions?v=3&x=${x}&y=${y}&z=5&height=400`;
+  console.log(map.src);
+  return map;
+}
+
 function displayMap(x, y) {
   const mapEl = createMap(x, y);
+  const recommendTrailEl = createTrailRecMap(x, y);
+  const conditionsEl = createConditionsEl(x, y);
   mapContainerEl.appendChild(mapEl);
+  mapContainerEl.appendChild(recommendTrailEl);
+  mapContainerEl.appendChild(conditionsEl);
 }
 
 function convertLatLon(lat, lon) {
