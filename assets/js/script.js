@@ -42,15 +42,36 @@ window.onclick = function(event) {
   }
 }
 
+// function displayHistory() {
+//   for (let i = 0; i < searchHistory.length; i++) {
+//     var list = document.createElement("li");
+//     list.setAttribute("class", "list-group-item");
+//     list.setAttribute("id", "city-name");
+//     list.textContent = searchHistory[i];
+//     cityListEl.appendChild(list);
+
+//    }
+// }
+
 function displayHistory() {
-  for (let i = 0; i < searchHistory.length; i++) {
-    var list = document.createElement("li");
-    list.setAttribute("class", "list-group-item");
-    list.setAttribute("id", "city-name");
-    list.textContent = searchHistory[i];
-    cityListEl.appendChild(list);
+  const searchHistoryBox = document.querySelector("#search-history");
+  searchHistoryBox.innerHTML = "";
+  for (var i = 0; i < searchHistory.length; i++) {
+    const savedCity = document.createElement("a");
+    savedCity.classList =
+  "saved-city";
+    savedCity.setAttribute =
+      ("href", "./index.html?city-name=" + searchHistory[i]);
+    savedCity.textContent = searchHistory[i];
+    (function (city) {
+      savedCity.addEventListener("click", function () {
+        searchWeather(city);
+      });
+    })(searchHistory[i]);
+    searchHistoryBox.appendChild(savedCity);
   }
 }
+
 
 function searchWeather(city) {
 
@@ -179,9 +200,35 @@ function createMap(x, y) {
   return map;
 }
 
+function createTrailRecMap(x, y) {
+  const map = document.createElement("iframe");
+  map.style.width = "100%";
+  map.style.maxWidth = "600px";
+  map.style.height = "500px";
+  map.classList = "has-ratio"
+  map.src = `https://hikingproject.com/widget/trail?v=3&map=1&type=trail&id=0&x=${x}&y=${y}&z=5`;
+  console.log(map.src);
+  return map;
+}
+
+function createConditionsEl(x, y) {
+  const map = document.createElement("iframe");
+  map.style.width = "100%";
+  map.style.maxWidth = "600px";
+  map.style.height = "500px";
+  map.classList = "has-ratio"
+  map.src = `https://hikingproject.com/widget/conditions?v=3&x=${x}&y=${y}&z=5&height=400`;
+  console.log(map.src);
+  return map;
+}
+
 function displayMap(x, y) {
   const mapEl = createMap(x, y);
+  const recommendTrailEl = createTrailRecMap(x, y);
+  const conditionsEl = createConditionsEl(x, y);
   mapContainerEl.appendChild(mapEl);
+  mapContainerEl.appendChild(recommendTrailEl);
+  mapContainerEl.appendChild(conditionsEl);
 }
 
 function convertLatLon(lat, lon) {
