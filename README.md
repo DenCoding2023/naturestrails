@@ -34,6 +34,8 @@ No installation required, but if you want to run this locally:
 
 - [Bulma CSS](https://bulma.io/)
 
+- [ProjectJ4](http://proj4js.org)
+
 ## Usage
 
 1. You will require an IDE such as Visual Studio Code. 
@@ -53,6 +55,17 @@ No installation required, but if you want to run this locally:
 - [Ryan Ferreira](https://github.com/RyanTheFerreira)
 - [Dennis Luciano](https://github.com/DenCoding2023)
 - [Jen Butler](https://github.com/justjenb)
+
+## Task Breakdown
+
+1. Code for HTML and CSS including beginning code and continuous formatting changes. Working with Bulma CSS API for formatting.
+2. Add functionality for current day display.
+3. Add functionality for forecast display.
+4. Adding the search history.
+5. Add modals for alerts.
+6. Add Map widget from Hiking Project website.
+7. Add Conditions widget from Hiking Project website.
+8. Add Trail widget from Hiking Project website.
 
 ### References
 
