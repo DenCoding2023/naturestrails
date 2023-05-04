@@ -137,3 +137,15 @@ span ::content{
   cursor: pointer;
 }
 
+body, button, input{
+  margin-left: 10px;
+}
+/* This is th */
+.mr-2 {
+  padding-left: 10px;
+}
+
+.subtitle.is-6 {
+  font-size: x-large;
+  
+}
