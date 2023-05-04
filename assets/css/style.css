@@ -103,7 +103,8 @@ color: black;
     font-size: xx-large;
     font-weight: 600;
     padding: 3px;
-}
+    color:black;
+    }
 
 #city-name{
     color:yellow;
@@ -151,5 +152,9 @@ button, input{
 }
 
 html{
-  background-color: #4a4a4a;;
+  background-color: #363636;;
+}
+
+.title{
+  color:black;
 }
