@@ -16,7 +16,12 @@ Learning to work as a team is crucial in software development because it is a co
 
 [Link to site](https://dencoding2023.github.io/naturestrails/)
 
-![Screenshot of Nature Trails](./assets/images/naturetrails.png)
+## ![Screenshot of Nature Trails]
+
+![Alt text](assets/images/nature%20trail%20pg1.png)
+![Alt text](assets/images/trail%20options.png)
+![Alt text](assets/images/Five%20day%20weather%20forcast.png)
+![Alt text](assets/images/individual%20card.png)
 
 ## Installation
 
