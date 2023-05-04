@@ -137,8 +137,6 @@ span ::content{
   cursor: pointer;
 }
 
-/* this is for the square the we imput information  */
-
 body, button, input{
   margin-left: 10px;
 }
