@@ -5,7 +5,6 @@ const mapContainerEl = document.querySelector("#map-display");
 const weatherBox = document.querySelector("#weather-box");
 const forecastBox = document.querySelector("#forecast-box");
 const cityEl = document.querySelector("#city-input");
-const cityListEl = document.querySelector("#city-list");
 const sidebarEl = document.querySelector("#sidebar");
 const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 const modal = document.getElementById("myModal");
@@ -22,10 +21,8 @@ function formSubmitHandler(event) {
 
   if (cityNamePattern.test(value)) {
     var city = value;
-    cityListEl.innerHTML = "";
     searchWeather(city);
     displayHistory();
-    console.log("not processing cityname test");
   } else {
       modal.style.display = "block";
       modalMessage.textContent = "Invalid city name. Please enter a valid city."
@@ -41,17 +38,6 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-
-// function displayHistory() {
-//   for (let i = 0; i < searchHistory.length; i++) {
-//     var list = document.createElement("li");
-//     list.setAttribute("class", "list-group-item");
-//     list.setAttribute("id", "city-name");
-//     list.textContent = searchHistory[i];
-//     cityListEl.appendChild(list);
-
-//    }
-// }
 
 function displayHistory() {
   const searchHistoryBox = document.querySelector("#search-history");
@@ -71,7 +57,6 @@ function displayHistory() {
     searchHistoryBox.appendChild(savedCity);
   }
 }
-
 
 function searchWeather(city) {
 
@@ -104,7 +89,6 @@ function searchWeather(city) {
     .then((res) => {
       if (!res.ok) {
         throw new Error(`Failed to fetch weather data: ${res.status}`);
-
       }
       return res.json();
     })
@@ -119,13 +103,11 @@ function searchWeather(city) {
         const { x, y } = converted;
         displayMap(x, y);
       } else {
-        console.error("Conversion failed.");
         modalMessage.textContent = "Conversion failed.";
         modal.style.display = "block";
       }
     })
     .catch((error) => {
-      console.error("Error during fetch or conversion:", error);
       modalMessage.textContent = "Error during fetch or conversion. ", error;
       modal.style.display = "block";
     });
@@ -154,7 +136,6 @@ function displayWeather(lat, lon) {
         response.json().then(function (data) {
           let weatherIcon = document.querySelector(".icons");
 
-          console.log(data);
           fiveDayForecast(data);
 
           document.querySelector("#name-city").innerHTML =
@@ -196,7 +177,6 @@ function createMap(x, y) {
   map.style.height = "500px";
   map.classList = "has-ratio"
   map.src = `https://hikingproject.com/widget/map?favs=1&location=fixed&x=${x}&y=${y}&z=10&h=10`;
-  console.log(map.src);
   return map;
 }
 
@@ -207,7 +187,6 @@ function createTrailRecMap(x, y) {
   map.style.height = "500px";
   map.classList = "has-ratio"
   map.src = `https://hikingproject.com/widget/trail?v=3&map=1&type=trail&id=0&x=${x}&y=${y}&z=5`;
-  console.log(map.src);
   return map;
 }
 
@@ -218,7 +197,6 @@ function createConditionsEl(x, y) {
   map.style.height = "500px";
   map.classList = "has-ratio"
   map.src = `https://hikingproject.com/widget/conditions?v=3&x=${x}&y=${y}&z=5&height=400`;
-  console.log(map.src);
   return map;
 }
 
@@ -249,8 +227,6 @@ function fiveDayForecast(data) {
   const minMaxHumidity = getMinMaxHumidity(data);
   const groupedData = groupByDay(data);
   const dates = Object.keys(groupedData).slice(0, 6);
-
-  // 5-Day Forecast
 
   dates.forEach((date) => {
     const day =
@@ -309,7 +285,6 @@ function getMinMaxHumidity(data) {
 
   for (const date in groupedData) {
     const dailyData = groupedData[date];
-    console.log("Daily data: " + dailyData);
     let minHum = Number.MAX_VALUE;
     let maxHum = Number.MIN_VALUE;
 
@@ -341,10 +316,10 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   cardDiv.classList = "card mb-6";
   cardDivBody.classList = "card-content";
   forecastDate.classList = "card-header-title";
-  weatherDescription.classList = "content";
+  weatherDescription.classList = "card-content content is-capitalized is-family sans-serif has-text-weight-semibold is-size-4";
   weatherIcon.classList = "card-header-icon";
 
-  weatherConditionsTemp.classList = "card-content";
+  weatherConditionsTemp.classList = "card-content ";
   weatherConditionsWind.classList = "card-content";
   weatherConditionsHumMinMax.classList = "card-content";
   weatherConditionsMinMax.classList = "card-content";
@@ -363,10 +338,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
   weatherConditionsHumMinMax.textContent =
     "Humidity: Min: " +
-    minMaxHumidity.minHumidity +
-    "%, Max: " +
-    minMaxHumidity.maxTemp +
-    "%";
+    minMaxHumidity.minHumidity + "%";
   let dateObj = new Date(day.dt * 1000);
   let options = {
     weekday: "long",
