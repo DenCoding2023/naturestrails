@@ -6,6 +6,7 @@ const weatherBox = document.querySelector("#weather-box");
 const forecastBox = document.querySelector("#forecast-box");
 const cityEl = document.querySelector("#city-input");
 const sidebarEl = document.querySelector("#sidebar");
+const submitFormEl = document.querySelector("#city-input");
 const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 const modal = document.getElementById("myModal");
 const span = document.getElementsByClassName("close")[0];
@@ -15,6 +16,13 @@ var limit = 1;
 var maxTableSize = 10;
 const cityNamePattern = /^(.+?)(?:, ([a-zA-Z]{2}), ([a-zA-Z]{2}))?$/;
 
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 function formSubmitHandler(event) {
   event.preventDefault();
   var value = cityEl.value.trim();
@@ -23,7 +31,7 @@ function formSubmitHandler(event) {
     var city = value;
     searchWeather(city);
     displayHistory();
-  } else {
+    } else {
       modal.style.display = "block";
       modalMessage.textContent = "Invalid city name. Please enter a valid city."
   }
@@ -31,12 +39,6 @@ function formSubmitHandler(event) {
 
 span.onclick = function() {
   modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
 }
 
 function displayHistory() {
@@ -59,24 +61,17 @@ function displayHistory() {
 }
 
 function searchWeather(city) {
-
-  var limit = 1;
-
-  searchHistory.push(city);
-
   const cityIndex = searchHistory.indexOf(city);
   if (cityIndex > -1) {
     searchHistory.splice(cityIndex, 1);
   }
-
+  searchHistory.unshift(city);
   if (searchHistory.length >= maxTableSize) {
     searchHistory.pop();
   }
 
-  searchHistory.unshift(city);
-
   localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-
+  var limit = 1;
   var apiUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     city +
@@ -111,12 +106,12 @@ function searchWeather(city) {
       modalMessage.textContent = "Error during fetch or conversion. ", error;
       modal.style.display = "block";
     });
+    cityEl.value = "";
 }
 
 function displayWeather(lat, lon) {
   fiveDayForecastEl.innerHTML = "";
   mapContainerEl.innerHTML = "";
-
   weatherBox.style.visibility = "visible";
 
 
@@ -360,5 +355,5 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   return cardDiv;
 }
 
-submitForm.addEventListener("submit", formSubmitHandler);
 displayHistory();
+submitForm.addEventListener("submit", formSubmitHandler);
