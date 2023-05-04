@@ -1,38 +1,58 @@
-# Naturetrails
+# Nature Trails
 
 ## Description
 
-A website where you can enter a location and it will return the most desired trails
+Nature Trails is a website where you can enter a location and it will return the most desired trails and conditions for those trails.
+
+Learning to work as a team is crucial in software development because it is a complex and multi-faceted process that requires the collaboration of multiple professionals with different skill sets. Furthermore, software development is an iterative process and when people work together they can bring their diverse perspectives and expertise to the table, which can lead to more innovative ideas and better solutions.
 
 ## User Story
 
-AS A hiking enthusiast 
-I WANT a website I can go to and enter my location and have it give me suggestions on where to hike and the best hiking day/weather conditions in which to hike
-SO THAT I can get the most out of my hiking experiences and plan my trips better
+- AS A hiking enthusiast 
+- I WANT a website I can go to and enter my location and have it give me suggestions on where to hike and the best hiking day/weather conditions in which to hike
+- SO THAT I can get the most out of my hiking experiences and plan my trips better
 
 ## Preview
 
+[Link to site](https://dencoding2023.github.io/naturestrails/)
 
-## Link to the aplication: https://dencoding2023.github.io/naturestrails/
+![Screenshot of Nature Trails](./assets/images/naturetrails.png)
+
+## Installation
+
+No installation required, but if you want to run this locally:
 
 ### Requirements
 
-1. Hiking Project API / Maps: https://www.hikingproject.com/widget/map-config
-2. OpenWeatherMap Weather API
-3. Bulma CSS
+- [Visual Studio Code](https://code.visualstudio.com/download)
 
-## Credits / Task Breakdown
+- [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
-1. User searches by City, State, Country Code or Zip Code from Search bar on Index.html
-2. Date shown on upper right-corner of index.html
-3. Search produces a map on the right half of the screen
-4. Weather data for current day displays on left of map after search in 3 hour increments from sunrise to sunset
-5. 5-day forecast data appears on bottom half of the screen after search
-6. When user clicks a date they are presented with 3-hour breakdown of weather conditions from sunrise to sunset
-    this will replace the data in the current weather box
+- [OpenWeatherMap API Key](https://openweathermap.org/)
 
+- [Hiking Project API Widgets](https://www.hikingproject.com/)
 
-    
+- [Bulma CSS](https://bulma.io/)
+
+## Usage
+
+1. You will require an IDE such as Visual Studio Code. 
+
+2. After installing Visual Studio Code, install the Live Server extension.
+
+3. Download the project code and export it to your local machine.
+
+4. Open the folder where index.html resides in Visual Studio Code.
+
+5. Right-click index.html and choose "Open with Live Server".
+
+6. Search for a city. For best results search by city, state and country code, or city and country code.
+
+## Credits
+
+- [Ryan Ferreira](https://github.com/RyanTheFerreira)
+- [Dennis Luciano](https://github.com/DenCoding2023)
+- [Jen Butler](https://github.com/justjenb)
 
 ### References
 
@@ -48,8 +68,8 @@ https://openlayers.org/doc/faq.html
 http://proj4js.org/?utm_source=cdnjs&utm_medium=cdnjs_link&utm_campaign=cdnjs_library
 https://gis.stackexchange.com/questions/116145/proj4js-problem-in-converting-coordinates-from-google-mercator
 
-
 ## License
 
 Please refer to the LICENSE in the repo.
+
 
