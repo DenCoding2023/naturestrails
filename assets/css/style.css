@@ -137,7 +137,7 @@ span ::content{
   cursor: pointer;
 }
 
-body, button, input{
+button, input{
   margin-left: 10px;
 }
 /* This is th */
