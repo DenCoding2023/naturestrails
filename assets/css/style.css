@@ -12,7 +12,7 @@
 }
 
 #span {
-  display: block;
+    display: block;
 }
 
 #weather-box {
@@ -43,10 +43,15 @@
   font-weight: 600;
 }
 
+/* weather icon in the main section  */
 img.icons {
-  width: 70px; /* Change this to the desired width */
-  height: 90px; /* Change this to the desired height */
-  vertical-align: top; /* Align the image to the top of the line-height */
+    width: 121px;
+    height: 110px;
+    vertical-align: top;
+    margin-top: -144px;
+    /* margin-right: -40px; */
+    margin-left: 364px;
+
 }
 
 /* The Modal (background) */
@@ -84,13 +89,50 @@ img.icons {
   font-weight: bold;
 }
 
+.saved-city{
+display: block;
+margin: 5px;
+font-size: x-large;
+margin-left: 13px;
+font-weight: 500;
+color: black;
+
+  }
+  
+.card h3{
+    font-size: xx-large;
+    font-weight: 600;
+    padding: 3px;
+}
+
+#city-name{
+    color:yellow;
+}
+
+span{
+    font-size: larger;
+    font-weight: 500;
+}
+
+input{
+    height: 50px;
+    width: 226px;
+    font-size: medium;
+    display: flex;
+}
+
+:-ms-input-placeholder{
+    color: red;
+
+}
+
+span ::content{
+    margin-left: 20px;
+}
+
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-.saved-city {
-  display: block;
 }
