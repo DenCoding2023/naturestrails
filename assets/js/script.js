@@ -316,10 +316,10 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   cardDiv.classList = "card mb-6";
   cardDivBody.classList = "card-content";
   forecastDate.classList = "card-header-title";
-  weatherDescription.classList = "content";
+  weatherDescription.classList = "card-content content is-capitalized is-family sans-serif has-text-weight-semibold is-size-4";
   weatherIcon.classList = "card-header-icon";
 
-  weatherConditionsTemp.classList = "card-content";
+  weatherConditionsTemp.classList = "card-content ";
   weatherConditionsWind.classList = "card-content";
   weatherConditionsHumMinMax.classList = "card-content";
   weatherConditionsMinMax.classList = "card-content";
