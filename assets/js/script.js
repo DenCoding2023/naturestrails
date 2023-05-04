@@ -338,10 +338,7 @@ function createWeatherBox(day, minMaxTemp, minMaxHumidity) {
   weatherConditionsWind.textContent = "Wind: " + day.wind.speed + " MPH";
   weatherConditionsHumMinMax.textContent =
     "Humidity: Min: " +
-    minMaxHumidity.minHumidity +
-    "%, Max: " +
-    minMaxHumidity.maxTemp +
-    "%";
+    minMaxHumidity.minHumidity + "%";
   let dateObj = new Date(day.dt * 1000);
   let options = {
     weekday: "long",
